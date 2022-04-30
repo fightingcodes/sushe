@@ -8,6 +8,7 @@ class ShusheApplicationTests {
 
     @Test
     void contextLoads() {
+        System.out.println("");
     }
 
 }
