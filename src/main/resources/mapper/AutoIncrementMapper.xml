@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.mapper.AutoIncrementMapper">
+<!--    <update id="update">-->
+<!--        update qinshi-->
+
+<!--        <if test="name!=null">-->
+<!--            set name=#{name},-->
+<!--        </if>-->
+<!--        <if test="password!=null">-->
+<!--             password=#{password},-->
+<!--        </if>-->
+<!--        <if test="age!=null">-->
+<!--             age=#{age},-->
+<!--        </if>-->
+<!--        <if test="qq!=null">-->
+<!--             qq=#{qq}-->
+<!--        </if>-->
+<!--         where id=#{id}-->
+<!--    </update>-->
+    <update id="deleteAuto">
+         alter table qinshi modify id int;
+    </update>
+    <update id="deletePrimaryKey">
+        alter table qinshi drop primary key
+    </update>
+    <update id="deleteId">
+        alter table qinshi drop id
+    </update>
+    <update id="changeAutoIncrementStart">
+        alter table qinshi add id int primary key auto_increment
+    </update>
+</mapper>
