@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/Manage.vue'
 import table from "@/views/table";
 import Login from "@/views/Login";
+import Register from "@/views/Register";
+
 
 Vue.use(VueRouter)
 
@@ -14,7 +16,8 @@ const routes = [
     redirect:"/home",
     children:[
       { path: 'home', name: 'Home', component: () => import(/* webpackChunkName: "about" */ '../views/Home.vue')},
-      { path: 'user', name: 'User', component: () => import(/* webpackChunkName: "about" */ '../views/User.vue')}
+      { path: 'user', name: 'User', component: () => import(/* webpackChunkName: "about" */ '../views/User.vue')},
+      { path: 'person', name: 'Person', component: () => import(/* webpackChunkName: "about" */ '../views/Person.vue')}
     ]
   },
   {
@@ -31,9 +34,14 @@ const routes = [
     component:Login
   },
   {
+    path: '/register',
+    name:'注册',
+    component:Register
+  },
+  {
     path: '/table',
     component: table
-  }
+  },
 
 ]
 

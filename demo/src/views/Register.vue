@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
-        <div style="margin: 200px auto;background-color: #fff;width: 350px;height: 300px;padding: 20px;border-radius: 10px">
-            <div style="margin: 20px 0;text-align: center;font-size: 24px"><b>登录</b></div>
+        <div style="margin: 150px auto;background-color: #fff;width: 350px;height: 400px;padding: 20px;border-radius: 10px">
+            <div style="margin: 20px 0;text-align: center;font-size: 24px"><b>注册</b></div>
             <el-form :rules="rules" :model="user" ref="userForm" >
                 <el-form-item prop="name">
                     <el-input  placeholder="请输入账号"  style="width: 350px;padding:10px 0" prefix-icon="el-icon-user" v-model="user.name" ></el-input>
@@ -9,9 +9,13 @@
                 <el-form-item prop="password">
                     <el-input  placeholder="请输入密码"  style="width: 350px;" prefix-icon="el-icon-lock" show-password v-model="user.password"></el-input>
                 </el-form-item>
+                <el-form-item prop="comfirmPassword">
+                    <el-input  placeholder="确认密码"  style="width: 350px;" prefix-icon="el-icon-lock" show-password v-model="user.comfirmPassword"></el-input>
+                </el-form-item>
+
                 <div style="margin-left: 100px;padding-top: 30px">
-                    <el-button type="primary"  autocomplete="off" @click="login">登录</el-button>
-                    <el-button type="warning"  autocomplete="off" @click="$router.push('/register')">注册</el-button>
+                    <el-button type="primary"  autocomplete="off" @click="register">注册</el-button>
+                    <el-button type="warning"  autocomplete="off" @click="$router.push('/login')">取消</el-button>
                 </div>
             </el-form>
         </div>
@@ -32,20 +36,27 @@
                     password: [
                         {required: true, message: '请输入密码', trigger: 'blur'},
                         {min: 1, max: 10, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+                    ],
+                    comfirmPassword: [
+                        {required: true, message: '请确认密码', trigger: 'blur'},
+                        {min: 1, max: 10, message: '长度在 3 到 5 个字符', trigger: 'blur'}
                     ]
                 }
             }
         },
         methods:{
-            login(){
+            register(){
                     this.$refs['userForm'].validate((valid) => {
                         if (valid) {
-                            axios.post("http://localhost:8182/user/login", this.user).then(res => {
+                            if(this.user.password!==this.user.comfirmPassword){
+                                this.$message.error("两次输入不同")
+                                return false
+                            }
+                            axios.post("http://localhost:8182/user/register", this.user).then(res => {
                                 if (res.data.code==='200') {
-                                    localStorage.setItem("user",JSON.stringify(res.data.data))
-                                    this.$router.push("/")
+                                  this.$message.success("注册成功")
                                 } else {
-                                    this.$message.error("请准确的输入用户名和密码")
+                                    this.$message.error("注册失败")
                                 }
                             })
                         }

@@ -52,8 +52,15 @@ public class QinshiController {
 
 
     @GetMapping("/list")
-    private List<Qinshi> list(){
+    public List<Qinshi> list(){
         return this.qinshiService.list();
+    }
+
+    @GetMapping("/username/{name}")
+    public Qinshi findone(@PathVariable String name){
+        QueryWrapper<Qinshi> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("name",name);
+        return qinshiService.getOne(queryWrapper);
     }
 
     @GetMapping("/page")
@@ -139,6 +146,17 @@ public class QinshiController {
             UserDto login = qinshiService.login(userDto);
             return Result.success(login);
         }
+    }
+    @PostMapping("/register")
+    public Result register(@RequestBody UserDto userDto){
+        String name = userDto.getName();
+        String password = userDto.getPassword();
+        if(StrUtil.isBlank(name)||StrUtil.isBlank(password)){
+            return  Result.error(Constants.CODE_400,"参数错误");
+        }else {
+            return Result.success(qinshiService.register(userDto));
+        }
+
     }
 
 }
